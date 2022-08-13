@@ -4,6 +4,7 @@ import { ApiProvider } from '@elrondnetwork/erdjs/out';
 import { network } from 'config';
 import { Pagination, Table } from 'react-bootstrap';
 import { denominated } from '../../helpers/denominate';
+import DonutChart from './components/DonutChart.jsx';
 
 interface DelegatorType {
   address: string;
@@ -11,11 +12,19 @@ interface DelegatorType {
   activeStake: string;
 }
 
-const Delegators: FC = () => {
+const ranges = [
+  [0, 50],
+  [50, 100],
+  [100, 500],
+  [500, 0]
+];
+
+const DelegatorsList: FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [delegators, setDelegators] = useState<Array<DelegatorType>>([]);
   const [delegatorsCount, setDelegatorsCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(0);
+  const [data, setData] = useState({});
 
   const perPage = 50;
 
@@ -23,7 +32,7 @@ const Delegators: FC = () => {
 
   const getDelegators = useCallback(
     async (from) => {
-      await provider.doGetGeneric(
+      return await provider.doGetGeneric(
         `providers/${network.delegationContract}/delegators?from=${from}&size=${perPage}`,
         (res) => {
           setDelegators(res);
@@ -43,6 +52,34 @@ const Delegators: FC = () => {
     );
     return () => setLoading(false);
   }, []);
+
+  const generateData = () => {
+    const queries = ranges.map((range) =>
+      provider.doGetGeneric(
+        `providers/${network.delegationContract}/delegators/count?stakeFrom=${range[0]}&stakeTo=${range[1]}`,
+        (res) => res
+      )
+    );
+
+    let arcs: { date: number; value: any; title: string }[] = [];
+    Promise.all(queries).then((values) => {
+      arcs = values.map((val, index) => {
+        return {
+          date: index,
+          value: val,
+          title: `${val}`
+        };
+      });
+
+      setData(arcs);
+    });
+
+    return arcs;
+  };
+
+  useEffect(() => {
+    generateData();
+  }, [!data]);
 
   useEffect(() => {
     getDelegators(currentPage * 50);
@@ -88,6 +125,17 @@ const Delegators: FC = () => {
       </div>
 
       <div className={styles.body}>
+        <div className={styles.chart}>
+          <DonutChart
+            data={data}
+            width={400}
+            height={400}
+            innerRadius={120}
+            outerRadius={200}
+            ranges={ranges}
+          />
+        </div>
+
         <PaginationWrapper />
         <Table striped hover variant='dark'>
           <thead>
@@ -123,4 +171,4 @@ const Delegators: FC = () => {
   );
 };
 
-export default Delegators;
+export default DelegatorsList;

@@ -5,38 +5,22 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
 
-import Cards from 'components/Cards';
 import Heading from 'components/Heading';
-import Nodes from 'components/Nodes';
-import Toggles from 'components/Toggles';
 
-import { useGlobalContext } from 'context';
 import useGlobalData from '../../hooks/useGlobalData';
 
 import styles from './styles.module.scss';
+import DelegatorsList from '../../components/DelegatorsList';
 
-const Admin: FC = () => {
+const Delegators: FC = () => {
   const { address } = useGetAccountInfo();
-  const { contractDetails } = useGlobalContext();
   const [loading, setLoading] = useState<boolean>(true);
 
   const navigate = useNavigate();
-  const handleRedirect = () => {
-    if (!Boolean(address)) {
-      navigate('/unlock');
-      return;
-    }
+  const handleRedirect = () =>
+    Boolean(address) ? setLoading(false) : navigate('/unlock');
 
-    if (contractDetails.status === 'loaded') {
-      if (contractDetails.data && contractDetails.data.owner) {
-        setLoading(false);
-      } else {
-        navigate('/dashboard');
-      }
-    }
-  };
-
-  useEffect(handleRedirect, [address, contractDetails.data]);
+  useEffect(handleRedirect, [address]);
   useGlobalData();
 
   if (loading) {
@@ -57,16 +41,12 @@ const Admin: FC = () => {
   }
 
   return (
-    <div className={styles.admin}>
+    <div className={styles.delegators}>
       <Heading />
 
-      <Cards />
-
-      <Toggles />
-
-      <Nodes />
+      <DelegatorsList />
     </div>
   );
 };
 
-export default Admin;
+export default Delegators;

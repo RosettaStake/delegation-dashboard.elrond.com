@@ -24,11 +24,17 @@
     padding: 30px;
     color: white;
 
+
+    .chart {
+      text-align: center;
+    }
+
     table {
       a {
         color: white;
       }
     }
+
 
     .pagination {
       a, span {
@@ -44,4 +50,6 @@
       }
     }
   }
+
+
 }

@@ -4,7 +4,8 @@ import {
   faExternalLinkAlt,
   faCog,
   faThLarge,
-  faEdit
+  faEdit,
+  faUsers
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -71,6 +72,16 @@ const Heading: FC = () => {
               render={<Identity />}
             />
           )}
+          <button
+            type='button'
+            onClick={() => navigate('/delegators')}
+            className={styles.button}
+          >
+            <span className={styles.icon}>
+              <FontAwesomeIcon icon={faUsers} />
+            </span>
+            Delegators
+          </button>
         </div>
       )}
     </div>
