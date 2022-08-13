@@ -87,7 +87,7 @@ const DelegatorsList: FC = () => {
 
   useEffect(() => {
     getDelegatorsCount();
-  });
+  }, []);
 
   const PaginationWrapper = () => (
     <Pagination
