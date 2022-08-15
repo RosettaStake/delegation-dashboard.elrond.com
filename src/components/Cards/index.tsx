@@ -62,6 +62,8 @@ const Cards: FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
+  const isAdmin = location.pathname === '/admin';
+
   const getNetworkStatus = async (): Promise<void> => {
     dispatch({
       type: 'getNetworkStatus',
@@ -374,9 +376,10 @@ const Cards: FC = () => {
   return (
     <div className={`${styles.cards} cards`}>
       {cards.map((card) => {
+        if (!isAdmin && card.label === 'Service Fee') return null;
         const [alpha, beta] = card.colors;
         const background = `linear-gradient(180deg, ${alpha} 0%, ${beta} 100%)`;
-        const interactive = card.modal && location.pathname === '/admin';
+        const interactive = card.modal && isAdmin;
 
         return (
           <div key={card.label} className={styles.card} style={{ background }}>

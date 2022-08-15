@@ -5,6 +5,7 @@ import withPageTitle from './components/PageTitle';
 import Admin from './pages/Admin';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
+import Delegators from './pages/Delegators';
 
 export interface RouteType {
   path: string;
@@ -20,7 +21,8 @@ export const routeNames = {
   unlock: '/unlock',
   ledger: '/ledger',
   walletconnect: '/walletconnect',
-  admin: '/admin'
+  admin: '/admin',
+  delegators: '/delegators'
 };
 
 const routes: Array<RouteType> = [
@@ -39,6 +41,11 @@ const routes: Array<RouteType> = [
     path: routeNames.admin,
     title: 'Admin',
     component: Admin
+  },
+  {
+    path: routeNames.delegators,
+    title: 'Delegators',
+    component: Delegators
   }
 ];
 
