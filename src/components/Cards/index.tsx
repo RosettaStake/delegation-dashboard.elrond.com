@@ -323,7 +323,7 @@ const Cards: FC = () => {
       icon: <FontAwesomeIcon icon={faLeaf} />,
       data: {
         value: getAnnualPercentage(),
-        percentage: 'Including Service Fee'
+        percentage: ''
       }
     },
     {
