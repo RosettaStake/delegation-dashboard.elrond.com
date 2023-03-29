@@ -47,10 +47,10 @@ export const network: NetworkType = {
   id: 'mainnet',
   name: 'Mainnet',
   egldLabel: 'EGLD',
-  walletAddress: 'https://wallet.elrond.com/dapp/init',
+  walletAddress: 'https://wallet.multiversx.com/dapp/init',
   apiAddress: 'https://elrond-api.rosettastake.com',
   gatewayAddress: 'https://elrond-gateway.rosettastake.com',
-  explorerAddress: 'https://explorer.elrond.com',
+  explorerAddress: 'https://explorer.multiversx.com',
   delegationContract:
     'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqrlllllsyprnh6'
 };

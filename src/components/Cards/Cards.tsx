@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, ReactNode } from 'react';
+import React, { useCallback, useEffect, ReactNode, useState } from 'react';
 import {
   faUsers,
   faServer,
@@ -66,7 +66,19 @@ export const Cards = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
+  const [providerInfo, setProviderInfo] = useState({
+    apr: 0,
+    numNodes: 0,
+    numUsers: '...'
+  });
   const isAdmin = location.pathname === '/admin';
+
+  const getProviderAPR = async () => {
+    const providerInfoRes = await axios.get(
+      `${network.apiAddress}/providers/${network.delegationContract}`
+    );
+    setProviderInfo(providerInfoRes.data);
+  };
 
   const getNetworkStatus = async (): Promise<void> => {
     dispatch({
@@ -307,12 +319,7 @@ export const Cards = () => {
       colors: ['#6CADEF', '#5B96D2'],
       icon: <FontAwesomeIcon icon={faUsers} />,
       data: {
-        value:
-          usersNumber.status !== 'loaded'
-            ? usersNumber.error
-              ? 'Data Unavailable'
-              : '...'
-            : usersNumber.data
+        value: providerInfo.numUsers
       }
     },
     {
@@ -326,7 +333,8 @@ export const Cards = () => {
       colors: ['#FBC34C', '#D49712'],
       icon: <FontAwesomeIcon icon={faLeaf} />,
       data: {
-        value: getAnnualPercentage(),
+        value:
+          providerInfo.apr === 0 ? '...' : providerInfo.apr.toFixed(2) + '%',
         percentage: ''
       }
     },
@@ -373,10 +381,12 @@ export const Cards = () => {
     }
   };
 
-  useEffect(fetchUsersNumber, [usersNumber.data]);
+  //useEffect(fetchUsersNumber, [usersNumber.data]);
   useEffect(fetchNetworkStatus, [networkStatus.data]);
   useEffect(fetchTotalNetworkStake, [totalNetworkStake.data]);
-
+  useEffect(() => {
+    getProviderAPR();
+  }, []);
   return (
     <div className={`${styles.cards} cards`}>
       {cards.map((card) => {

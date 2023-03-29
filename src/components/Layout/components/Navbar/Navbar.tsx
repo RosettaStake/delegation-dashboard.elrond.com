@@ -12,6 +12,7 @@ import { network } from 'config';
 import { denominated } from 'helpers/denominate';
 
 import styles from './styles.module.scss';
+import { RosettaLogo } from '../../../../assets/RosettaLogo';
 
 interface ButtonsType {
   icon: ReactNode;
@@ -43,7 +44,7 @@ export const Navbar = () => {
     <nav className={`${styles.nav} delegation-nav`}>
       <Link to='/dashboard' className={styles.heading}>
         <span className={styles.logo}>
-          <MultiversX />
+          <RosettaLogo />
         </span>
 
         <span className={styles.title}>Delegation Dashboard</span>
