@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
-import { ApiProvider } from '@elrondnetwork/erdjs/out';
+import { ApiNetworkProvider } from '@multiversx/sdk-network-providers';
 import { network } from 'config';
 import { Pagination, Table } from 'react-bootstrap';
 import { denominated } from '../../helpers/denominate';
@@ -28,37 +28,35 @@ const DelegatorsList: FC = () => {
 
   const perPage = 50;
 
-  const provider = new ApiProvider(network.apiAddress, { timeout: 5000 });
+  const provider = new ApiNetworkProvider(network.apiAddress, {
+    timeout: 5000
+  });
 
   const getDelegators = useCallback(
-    async (from) => {
-      return await provider.doGetGeneric(
-        `providers/${network.delegationContract}/delegators?from=${from}&size=${perPage}`,
-        (res) => {
-          setDelegators(res);
-        }
+    async (from: number) => {
+      const res = await provider.doGetGeneric(
+        `providers/${network.delegationContract}/delegators?from=${from}&size=${perPage}`
       );
+      setDelegators(res);
       return () => setLoading(false);
     },
     [currentPage]
   );
 
   const getDelegatorsCount = useCallback(async () => {
-    await provider.doGetGeneric(
-      `providers/${network.delegationContract}/delegators/count`,
-      (res) => {
-        setDelegatorsCount(res);
-      }
+    const res = await provider.doGetGeneric(
+      `providers/${network.delegationContract}/delegators/count`
     );
+    setDelegatorsCount(res);
     return () => setLoading(false);
   }, []);
 
   const generateData = () => {
-    const queries = ranges.map((range) =>
-      provider.doGetGeneric(
-        `providers/${network.delegationContract}/delegators/count?stakeFrom=${range[0]}&stakeTo=${range[1]}`,
-        (res) => res
-      )
+    const queries = ranges.map(
+      async (range) =>
+        await provider.doGetGeneric(
+          `providers/${network.delegationContract}/delegators/count?stakeFrom=${range[0]}&stakeTo=${range[1]}`
+        )
     );
 
     let arcs: { date: number; value: any; title: string }[] = [];
