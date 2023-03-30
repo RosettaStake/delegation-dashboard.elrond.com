@@ -2,9 +2,9 @@ import { ComponentType } from 'react';
 import { dAppName } from 'config';
 import withPageTitle from './components/PageTitle';
 
-import Admin from './pages/Admin';
-import Dashboard from './pages/Dashboard';
-import Home from './pages/Home';
+import { Admin } from './pages/Admin';
+import { Dashboard } from './pages/Dashboard';
+import { Home } from './pages/Home';
 import Delegators from './pages/Delegators';
 
 export interface RouteType {
@@ -51,8 +51,8 @@ const routes: Array<RouteType> = [
 
 const mappedRoutes = routes.map((route) => {
   const title = route.title
-    ? `${route.title} • Elrond ${dAppName}`
-    : `Elrond ${dAppName}`;
+    ? `${route.title} • MultiversX ${dAppName}`
+    : `MultiversX ${dAppName}`;
 
   const requiresAuth = Boolean(route.authenticatedRoute);
   const wrappedComponent = withPageTitle(title, route.component);
