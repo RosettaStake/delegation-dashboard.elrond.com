@@ -25,7 +25,7 @@ export const routeNames = {
   delegators: '/delegators'
 };
 
-const routes: Array<RouteType> = [
+const routes: RouteType[] = [
   {
     path: routeNames.home,
     title: 'Home',

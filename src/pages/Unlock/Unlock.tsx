@@ -17,7 +17,6 @@ import { network } from 'config';
 import styles from './styles.module.scss';
 
 import type { ConnectionType } from './types';
-import { AuthRedirectWrapper } from '../../components/AuthRedirectWrapper';
 
 export const Unlock = () => {
   const { address } = useGetAccountInfo();
@@ -100,46 +99,44 @@ export const Unlock = () => {
   useEffect(redirectConditionally, [address]);
 
   return (
-    <AuthRedirectWrapper>
-      <div className={styles.unlock}>
-        <div className={styles.wrapper}>
-          <div className={styles.logo}>
-            <MultiversX />
-          </div>
+    <div className={styles.unlock}>
+      <div className={styles.wrapper}>
+        <div className={styles.logo}>
+          <MultiversX />
+        </div>
 
-          <strong className={styles.heading}>
-            MultiversX Delegation Dashboard
-          </strong>
+        <strong className={styles.heading}>
+          MultiversX Delegation Dashboard
+        </strong>
 
-          <div className={styles.description}>
-            {`Delegate MultiversX (${network.egldLabel}) and earn up to 25% APY!`}
-          </div>
+        <div className={styles.description}>
+          {`Delegate MultiversX (${network.egldLabel}) and earn up to 25% APY!`}
+        </div>
 
-          <div className={styles.connects}>
-            {connects.map((connect) => (
-              <connect.component
-                key={connect.name}
-                callbackRoute='/dashboard'
-                logoutRoute='/unlock'
-                {...connect}
-              >
-                <span className={styles.connect}>
-                  <span className={styles.title}>{connect.title}</span>
+        <div className={styles.connects}>
+          {connects.map((connect) => (
+            <connect.component
+              key={connect.name}
+              callbackRoute='/dashboard'
+              logoutRoute='/unlock'
+              {...connect}
+            >
+              <span className={styles.connect}>
+                <span className={styles.title}>{connect.title}</span>
 
-                  <span
-                    className={styles.icon}
-                    style={{ background: connect.background }}
-                  >
-                    <connect.icon />
-                  </span>
-
-                  <span className={styles.name}>{connect.name}</span>
+                <span
+                  className={styles.icon}
+                  style={{ background: connect.background }}
+                >
+                  <connect.icon />
                 </span>
-              </connect.component>
-            ))}
-          </div>
+
+                <span className={styles.name}>{connect.name}</span>
+              </span>
+            </connect.component>
+          ))}
         </div>
       </div>
-    </AuthRedirectWrapper>
+    </div>
   );
 };
