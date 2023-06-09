@@ -48,8 +48,8 @@ export const network: NetworkType = {
   name: 'Mainnet',
   egldLabel: 'EGLD',
   walletAddress: 'https://wallet.multiversx.com/dapp/init',
-  apiAddress: 'https://elrond-api.rosettastake.com',
-  gatewayAddress: 'https://elrond-gateway.rosettastake.com',
+  apiAddress: 'https://api.multiversx.com',
+  gatewayAddress: 'https://gateway.multiversx.com',
   explorerAddress: 'https://explorer.multiversx.com',
   delegationContract:
     'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqrlllllsyprnh6'
